@@ -4,8 +4,6 @@ with source_data as (
         , productsubcategoryid										
         , 'name' as product_name					
         , productnumber					
-        , class					
-        , style					
         , productmodelid					
     from{{ source('advworks_erp', 'production_product') }}
 
