@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: dim_address
+    columns:
+      - name: addressid_sk
+        description: The primary key of the address
+        tests:
+          - unique
+          - not_null

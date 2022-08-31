@@ -1,0 +1,27 @@
+version: 2
+
+sources:
+  - name: advworks_erp
+    schema: advworks_el 
+    description: This is the adventure works erp postgres database replica
+    tables:
+      - name: sales_order_header
+        description: One record per order.
+        columns:
+          - name: salesorderid
+            description: Primary key of the orders table
+            tests:
+              - unique
+              - not_null
+
+      - name: person_address
+      - name: person_countryregion
+      - name: person_person
+      - name: person_stateprovince
+      - name: production_product
+      - name: sales_creditcard
+      - name: sales_customer
+      - name: sales_salesorderheader
+      - name: sales_salesreason
+      - name: salesorderdetail
+      - name: salesorderheadersalesreason
