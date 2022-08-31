@@ -10,9 +10,9 @@ with headersalesreason as (
 
 , joining as (
     select
-        headersalesreason.salesorderid as salesID_sk				
+        row_number () over (order by salesreason.salesreasonid) as salesreason_sk
+        , headersalesreason.salesorderid				
         , headersalesreason.salesreasonid				
-        , headersalesreason.modifieddate
         , salesreason.reason_name				
         , salesreason.reasontype
     from headersalesreason
