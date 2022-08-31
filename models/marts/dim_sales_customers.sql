@@ -27,7 +27,6 @@ with sales_person as (
 select *
 from transformed
 
-
 /*
 select count(distinct businessentity_sk)
 from transformed;
