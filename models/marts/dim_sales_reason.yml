@@ -3,10 +3,8 @@ version: 2
 models:
   - name: dim_sales_reason
     columns:
-      - name: 
+      - name: salesID_sk
         description: The primary key of the sales reason
-
-        
         tests:
           - unique
           - not_null

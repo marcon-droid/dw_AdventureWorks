@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: dim_customers
+    columns:
+      - name: businessentity_sk
+        description: The primary key of the customers 
+        tests:
+          - unique
+          - not_null
