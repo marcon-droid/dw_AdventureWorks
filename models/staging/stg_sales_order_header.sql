@@ -18,7 +18,7 @@ with source_data as (
         , purchaseordernumber					
         , subtotal					
         , totaldue
-    from{{ source('advworks_erp', 'salesorderdetail') }}
+    from{{ source('advworks_erp', 'sales_salesorderheader') }}
 
 )
 

@@ -14,7 +14,8 @@ with sales_person as (
 
 , transformed as (
     select
-        businessentityid as businessentity_sk -- auto-incremental surrogate key									
+        row_number () over (order by businessentityid) as customerid_sk -- auto-incremental surrogate key									
+        , businessentityid as person_id
         , persontype				
         , title				
         , firstname				
