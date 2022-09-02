@@ -45,18 +45,34 @@ joining CUSTOMERS, CREDIT CARD, ADDRESS on sales_order_header
 )
 
 /*
-joining ORDER DETAIL,  on sales_order_header
+joining PRODUCT  on sales_order_detail
 */
 
 , orders_detail_with_sk as (
     select
-        order_dtl.order_id
-        , products.product_sk as product_fk
-        , order_dtl.discount
-        , order_dtl.unit_price
-        , order_dtl.quantity
-    from {{ref('stg_sales_order_detail')}} order_dtl
-    left join products on order_dtl.product_id = products.product_id
+        salesorderid
+        , productid_sk as productid_fk
+        , productsubcategoryid												
+        , salesorderdetailid			
+        , orderqty				
+        , productid				
+        , unitprice			
+        , unitpricediscount
+        , product_name
+    from {{ref('stg_sales_order_detail')}} order_detail
+    left join products on order_detail.productid = products.productid
+)
+
+/*
+joining sales_reason on salesorderheadersalesreason
+*/
+
+, sales_reason_with_sk as (
+    select
+        salesorderid
+        , salesreason_sk as salesreason_fk
+    from {{ref('stg_sls_order_header_sls_reason')}} sales_order_header_reason
+    left join reason on sales_order_header_reason.salesreasonid = reason.salesreasonid 
 )
 
 /* We then join orders and orders detail to get the final fact table*/
