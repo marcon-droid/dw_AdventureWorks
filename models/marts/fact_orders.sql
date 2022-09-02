@@ -1,41 +1,52 @@
 with sales_address as (
-    select *
+    select addressid_sk
+    , addressid
     from {{ref('dim_address')}}
 )
 
 , creditcard as (
-    select *
+    select creditcard_sk
+    , creditcardid
     from {{ref('dim_creditcard')}}
 )
 
 , products as (
-    select * 
+    select productid_sk
+    , productid
     from {{ref('dim_products')}}
 )
 
 , customers as (
-    select *
+    select customerid_sk
+    , person_id
     from {{ref('dim_sales_customers')}}
 )
 
 , reason as (
-    select *
+    select salesreason_sk
+    , salesreasonid
     from {{ref('dim_sales_reason')}}
 )
+
+/*
+joining CUSTOMERS, CREDIT CARD, ADDRESS on sales_order_header
+*/
 
 , slsorderheader_with_sk as (
     select
         salesorderid
         , customers.customerid_sk as customerid_fk
         , creditcard.creditcard_sk as creditcard_fk				
-        , creditcard.cardtype				
         , sales_address.addressid_sk as addressid_fk
     from {{ref('stg_sales_order_header')}} as sales_order
-    left join customers on sales_order.customer_id = customers.person_id
+    left join customers on sales_order.customerid = customers.person_id
     left join creditcard on sales_order.creditcardid = creditcard.creditcardid
     left join sales_address on sales_order.billtoaddressid = sales_address.addressid
 )
 
+/*
+joining ORDER DETAIL,  on sales_order_header
+*/
 
 , orders_detail_with_sk as (
     select

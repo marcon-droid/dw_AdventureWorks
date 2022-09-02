@@ -20,4 +20,4 @@ with headersalesreason as (
 )
 
 select *
-from joining;
+from joining
