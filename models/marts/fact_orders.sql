@@ -4,7 +4,7 @@ with sales_address as (
 )
 
 , creditcard as (
-    select * 
+    select *
     from {{ref('dim_creditcard')}}
 )
 
@@ -14,27 +14,28 @@ with sales_address as (
 )
 
 , customers as (
-    select * 
+    select *
     from {{ref('dim_sales_customers')}}
 )
 
 , reason as (
-    select * 
-    from {{ref('dim_sales_reaon')}}
+    select *
+    from {{ref('dim_sales_reason')}}
 )
 
-, orders_with_sk as (
+, slsorderheader_with_sk as (
     select
-        orderdetails.orderid_sk
-        , orderdetails.orderqty				
-        , orderdetails.productid				
-        , orderdetails.unitprice				
-        , orderdetails.unitpricediscount
-        , orderdetails.product_name
-    from {{ref('stg_sales_order_detail')}} as orders
-    left join employees on orders.orderid_sk = employees.employee_id
-    left join customers on orders.customer_id = customers.customer_id
+        salesorderid
+        , customers.customerid_sk as customerid_fk
+        , creditcard.creditcard_sk as creditcard_fk				
+        , creditcard.cardtype				
+        , sales_address.addressid_sk as addressid_fk
+    from {{ref('stg_sales_order_header')}} as sales_order
+    left join customers on sales_order.customer_id = customers.person_id
+    left join creditcard on sales_order.creditcardid = creditcard.creditcardid
+    left join sales_address on sales_order.billtoaddressid = sales_address.addressid
 )
+
 
 , orders_detail_with_sk as (
     select

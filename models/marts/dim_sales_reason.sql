@@ -15,10 +15,9 @@ with headersalesreason as (
         , headersalesreason.salesreasonid				
         , salesreason.reason_name				
         , salesreason.reasontype
-    from headersalesreason
-    left join salesreason on headersalesreason.salesreasonid = salesreason.salesreasonid
-
+    from salesreason
+    left join headersalesreason on salesreason.salesreasonid = headersalesreason.salesreasonid
 )
 
 select *
-from joining
+from joining;

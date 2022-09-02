@@ -17,7 +17,8 @@ with address_city as (
 
 , joining as (
     select
-        address_city.addressid as addressid_sk				
+        address_city.addressid as addressid_sk
+        , address_city.addressid				
         , address_city.addressline1				
         , address_city.city				
         , address_city.stateprovinceid			
