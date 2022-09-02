@@ -13,6 +13,7 @@ with sales_address as (
 , products as (
     select productid_sk
     , productid
+    , product_name
     from {{ref('dim_products')}}
 )
 
@@ -52,13 +53,12 @@ joining PRODUCT  on sales_order_detail
     select
         salesorderid
         , productid_sk as productid_fk
-        , productsubcategoryid												
         , salesorderdetailid			
         , orderqty				
-        , productid				
+        , order_detail.productid				
         , unitprice			
         , unitpricediscount
-        , product_name
+        , products.product_name
     from {{ref('stg_sales_order_detail')}} order_detail
     left join products on order_detail.productid = products.productid
 )
@@ -78,26 +78,21 @@ joining sales_reason on salesorderheadersalesreason
 /* We then join orders and orders detail to get the final fact table*/
 , final as (
     select
-        order_dtl.order_id
-        , orders.employee_fk
-        , orders.customer_fk
-        , orders.order_date
-        , orders.ship_region
-        , orders.shipped_date
-        , orders.ship_country
-        , orders.ship_name
-        , orders.ship_postal_code
-        , orders.ship_city
-        , orders.freight
-        , orders.ship_address
-        , orders.required_date
-        , order_dtl.product_fk
-        , order_dtl.discount
-        , order_dtl.unit_price
-        , order_dtl.quantity
-        , order_dtl.unit_price * order_dtl.quantity as gross_total
-    from orders_with_sk as orders
-    left join orders_detail_with_sk as order_dtl on orders.order_id = order_dtl.order_id
+        slsorderheader_with_sk.salesorderid
+        , slsorderheader_with_sk.customerid_fk
+        , slsorderheader_with_sk.creditcard_fk
+        , slsorderheader_with_sk.addressid_fk
+        , orders_detail_with_sk.productid_fk
+        , orders_detail_with_sk.salesorderdetailid
+        , orders_detail_with_sk.orderqty
+        , orders_detail_with_sk.productid
+        , orders_detail_with_sk.unitprice
+        , orders_detail_with_sk.unitpricediscount
+        , orders_detail_with_sk.product_name
+        , sales_reason_with_sk.salesreason_fk
+    from slsorderheader_with_sk 
+    left join orders_detail_with_sk on slsorderheader_with_sk.salesorderid = orders_detail_with_sk.salesorderid
+    left join sales_reason_with_sk on slsorderheader_with_sk.salesorderid = sales_reason_with_sk.salesorderid
 )
 
 select * 
