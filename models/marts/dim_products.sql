@@ -1,4 +1,4 @@
-with product as (
+with products as (
     select *
     from {{ ref('stg_product')}}
 )
@@ -9,7 +9,7 @@ with product as (
         , productid
         , productsubcategoryid										
         , product_name
-    from product
+    from products
 )
 
 select *
