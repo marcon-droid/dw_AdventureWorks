@@ -39,6 +39,13 @@ joining CUSTOMERS, CREDIT CARD, ADDRESS on sales_order_header
         , customers.customerid_sk as customerid_fk
         , creditcard.creditcard_sk as creditcard_fk				
         , sales_address.addressid_sk as addressid_fk
+        , orderdate				
+        , duedate					
+        , shipdate					
+        , order_status					
+        , subtotal					
+        , totaldue
+
     from {{ref('stg_sales_order_header')}} as sales_order
     left join customers on sales_order.customerid = customers.person_id
     left join creditcard on sales_order.creditcardid = creditcard.creditcardid
@@ -95,5 +102,5 @@ joining sales_reason on salesorderheadersalesreason
     left join sales_reason_with_sk on slsorderheader_with_sk.salesorderid = sales_reason_with_sk.salesorderid
 )
 
-select * 
+select *
 from final

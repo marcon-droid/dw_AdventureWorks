@@ -5,3 +5,6 @@ models:
     columns:
       - name: salesorderid
         description: The primary key of the order
+        test:
+          - unique
+          - not_null

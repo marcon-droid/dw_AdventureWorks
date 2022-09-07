@@ -10,10 +10,6 @@ sources:
         columns:
           - name: salesorderid
             description: Primary key of the orders table
-            tests:
-              - unique
-              - not_null
-
       - name: person_address
       - name: person_countryregion
       - name: person_person
