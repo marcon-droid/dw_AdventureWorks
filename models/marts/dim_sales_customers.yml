@@ -1,9 +1,9 @@
 version: 2
 
 models:
-  - name: dim_customers
+  - name: dim_sales_customers
     columns:
-      - name: businessentity_sk
+      - name: customerid_sk
         description: The primary key of the customers 
         tests:
           - unique

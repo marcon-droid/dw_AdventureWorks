@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: dim_product
+  - name: dim_products
     columns:
       - name: productid_sk
         description: The primary key of the product

@@ -19,7 +19,7 @@ with sales_address as (
 
 , customers as (
     select customerid_sk
-    , person_id
+    , customerid
     from {{ref('dim_sales_customers')}}
 )
 
@@ -45,7 +45,6 @@ joining CUSTOMERS, CREDIT CARD, ADDRESS on sales_order_header
         , order_status					
         , subtotal					
         , totaldue
-
     from {{ref('stg_sales_order_header')}} as sales_order
     left join customers on sales_order.customerid = customers.person_id
     left join creditcard on sales_order.creditcardid = creditcard.creditcardid
