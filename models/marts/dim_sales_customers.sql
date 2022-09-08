@@ -14,15 +14,17 @@ with sales_person as (
 
 , transformed as (
     select
-        row_number () over (order by businessentityid) as customerid_sk -- auto-incremental surrogate key									
-        , businessentityid as person_id
+        row_number () over (order by customerid) as customerid_sk -- auto-incremental surrogate key									
+        , customerid
         , persontype				
         , title				
         , firstname				
         , middlename				
-        , lastname	
-    from sales_person
-    left join customers on sales_person.businessentityid = customers.customerid
+        , lastname
+        , concat(firstname, " ", middlename, " ", lastname)	as full_name
+    from customers
+    left join sales_person on customers.personid = sales_person.person_id
+    and customers.personid is not null
 )
 
 select *

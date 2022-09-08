@@ -1,6 +1,6 @@
 with source_data as (
     select        	
-        businessentityid				
+        businessentityid as person_id				
         , persontype				
         , title				
         , firstname				
