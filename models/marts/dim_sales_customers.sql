@@ -23,10 +23,6 @@ with person as (
     left join person on customers.personid = person.person_id
     )
 
-/* quando rodamos customer_id contra person_id, o modelo gera uma tabela, mas quando rodamos personid com person_id ele nao consegue fazer match
-left join person on customers.personid = person.person_id
-*/
-
 select *
 from transformed
 
