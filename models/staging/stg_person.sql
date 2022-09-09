@@ -5,9 +5,9 @@ with source_data as (
         , title				
         , firstname				
         , middlename				
-        , lastname				
+        , lastname
+        , concat(firstname," ", lastname) as full_name
     from{{ source('advworks_erp', 'person_person') }}
-
 )
 
 select *

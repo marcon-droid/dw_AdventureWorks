@@ -1,6 +1,6 @@
 with source_data as (
     select
-        customerid
+        customerid as customer_id
         , personid				
         , storeid				
         , territoryid						

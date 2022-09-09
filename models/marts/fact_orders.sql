@@ -1,31 +1,25 @@
 with sales_address as (
-    select addressid_sk
-    , addressid
+    select *
     from {{ref('dim_address')}}
 )
 
 , creditcard as (
-    select creditcard_sk
-    , creditcardid
+    select *
     from {{ref('dim_creditcard')}}
 )
 
 , products as (
-    select productid_sk
-    , productid
-    , product_name
+    select *
     from {{ref('dim_products')}}
 )
 
 , customers as (
-    select customerid_sk
-    , customerid
+    select *
     from {{ref('dim_sales_customers')}}
 )
 
 , reason as (
-    select salesreason_sk
-    , salesreasonid
+    select *
     from {{ref('dim_sales_reason')}}
 )
 
@@ -39,14 +33,15 @@ joining CUSTOMERS, CREDIT CARD, ADDRESS on sales_order_header
         , customers.customerid_sk as customerid_fk
         , creditcard.creditcard_sk as creditcard_fk				
         , sales_address.addressid_sk as addressid_fk
-        , orderdate				
-        , duedate					
-        , shipdate					
-        , order_status					
-        , subtotal					
-        , totaldue
+        , sales_order.orderdate				
+        , sales_order.duedate					
+        , sales_order.shipdate					
+        , sales_order.order_status					
+        , sales_order.subtotal					
+        , sales_order.totaldue
+        , customers.full_name
     from {{ref('stg_sales_order_header')}} as sales_order
-    left join customers on sales_order.customerid = customers.person_id
+    left join customers on sales_order.customerid = customers.customer_id
     left join creditcard on sales_order.creditcardid = creditcard.creditcardid
     left join sales_address on sales_order.billtoaddressid = sales_address.addressid
 )
@@ -60,10 +55,10 @@ joining PRODUCT  on sales_order_detail
         salesorderid
         , productid_sk as productid_fk
         , salesorderdetailid			
-        , orderqty				
+        , order_detail.orderqty				
         , order_detail.productid				
-        , unitprice			
-        , unitpricediscount
+        , order_detail.unitprice			
+        , order_detail.unitpricediscount
         , products.product_name
     from {{ref('stg_sales_order_detail')}} order_detail
     left join products on order_detail.productid = products.productid
@@ -94,6 +89,7 @@ joining sales_reason on salesorderheadersalesreason
         , slsorderheader_with_sk.order_status					
         , slsorderheader_with_sk.subtotal					
         , slsorderheader_with_sk.totaldue
+        , slsorderheader_with_sk.full_name
         , orders_detail_with_sk.productid_fk
         , orders_detail_with_sk.salesorderdetailid
         , orders_detail_with_sk.orderqty

@@ -1,31 +1,30 @@
-with sales_person as (
+with person as (
     select *
     from {{ ref('stg_person')}}
 )
 
 , customers as (
-    select 
-        customerid				
-        , personid				
-        , storeid				
-        , territoryid
+    select *
     from {{ ref('stg_customer') }}
 )
 
 , transformed as (
     select
-        row_number () over (order by customerid) as customerid_sk -- auto-incremental surrogate key									
-        , customerid
-        , persontype				
-        , title				
-        , firstname				
-        , middlename				
-        , lastname
-        , concat(firstname, " ", middlename, " ", lastname)	as full_name
+        row_number () over (order by customers.customer_id) as customerid_sk -- auto-incremental surrogate key									
+        , customers.customer_id
+        , person.persontype				
+        , person.title				
+        , person.firstname				
+        , person.middlename
+        , person.lastname				
+        , person.full_name
     from customers
-    left join sales_person on customers.personid = sales_person.person_id
-    and customers.personid is not null
+    left join person on customers.customer_id = person.person_id    
 )
+
+/* quando rodamos customer_id contra person_id, o modelo gera uma tabela, mas quando rodamos personid com person_id ele nao consegue fazer match
+left join person on customers.personid = person.person_id
+*/
 
 select *
 from transformed
