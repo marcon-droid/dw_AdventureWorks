@@ -18,9 +18,10 @@ with person as (
         , person.middlename
         , person.lastname				
         , person.full_name
+        , person.person_id
     from customers
-    left join person on customers.customer_id = person.person_id    
-)
+    left join person on customers.personid = person.person_id
+    )
 
 /* quando rodamos customer_id contra person_id, o modelo gera uma tabela, mas quando rodamos personid com person_id ele nao consegue fazer match
 left join person on customers.personid = person.person_id
@@ -45,4 +46,10 @@ select count(distinct customerid)
 from {{ ref('stg_customer')}}
 
 total = 19820
+
+
+
+select count(*)
+from transformed
+where person_id is null
 */
