@@ -47,7 +47,7 @@ joining CUSTOMERS, CREDIT CARD, ADDRESS on sales_order_header
 )
 
 /*
-joining PRODUCT  on sales_order_detail
+joining PRODUCT on sales_order_detail
 */
 
 , orders_detail_with_sk as (
