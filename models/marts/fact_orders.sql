@@ -70,10 +70,19 @@ joining sales_reason on salesorderheadersalesreason
 
 , sales_reason_with_sk as (
     select
-        salesorderid
+        row_number() over (partition by salesorderid order by sales_order_header_reason.salesreasonid) as dedup_index
+        , salesorderid
         , salesreason_sk as salesreason_fk
     from {{ref('stg_sls_order_header_sls_reason')}} sales_order_header_reason
     left join reason on sales_order_header_reason.salesreasonid = reason.salesreasonid 
+)
+
+, dedup_salesreason_with_sk as (
+    select 
+        salesorderid
+        , salesreason_fk
+    from sales_reason_with_sk
+    where dedup_index = 1
 )
 
 /* We then join orders and orders detail to get the final fact table*/
@@ -97,10 +106,10 @@ joining sales_reason on salesorderheadersalesreason
         , orders_detail_with_sk.unitprice
         , orders_detail_with_sk.unitpricediscount
         , orders_detail_with_sk.product_name
-        , sales_reason_with_sk.salesreason_fk
+        , dedup_salesreason_with_sk.salesreason_fk
     from slsorderheader_with_sk 
     left join orders_detail_with_sk on slsorderheader_with_sk.salesorderid = orders_detail_with_sk.salesorderid
-    left join sales_reason_with_sk on slsorderheader_with_sk.salesorderid = sales_reason_with_sk.salesorderid
+    left join dedup_salesreason_with_sk on slsorderheader_with_sk.salesorderid = dedup_salesreason_with_sk.salesorderid
 )
 
 select *
