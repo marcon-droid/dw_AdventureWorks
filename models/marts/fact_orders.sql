@@ -18,7 +18,7 @@ with sales_address as (
     from {{ref('dim_sales_customers')}}
 )
 
-, reason as (
+ , reason as (
     select *
     from {{ref('dim_sales_reason')}}
 )
@@ -77,6 +77,7 @@ joining sales_reason on salesorderheadersalesreason
     left join reason on sales_order_header_reason.salesreasonid = reason.salesreasonid 
 )
 
+
 , dedup_salesreason_with_sk as (
     select 
         salesorderid
@@ -106,10 +107,10 @@ joining sales_reason on salesorderheadersalesreason
         , orders_detail_with_sk.unitprice
         , orders_detail_with_sk.unitpricediscount
         , orders_detail_with_sk.product_name
-        , dedup_salesreason_with_sk.salesreason_fk
+        , dedup_salesreason_with_sk.salesreason_fk 
     from slsorderheader_with_sk 
     left join orders_detail_with_sk on slsorderheader_with_sk.salesorderid = orders_detail_with_sk.salesorderid
-    left join dedup_salesreason_with_sk on slsorderheader_with_sk.salesorderid = dedup_salesreason_with_sk.salesorderid
+    left join dedup_salesreason_with_sk on slsorderheader_with_sk.salesorderid = dedup_salesreason_with_sk.salesorderid 
 )
 
 select *
