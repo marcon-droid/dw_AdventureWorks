@@ -48,6 +48,9 @@ joining CUSTOMERS, CREDIT CARD, ADDRESS on sales_order_header
 
 /*
 joining PRODUCT on sales_order_detail
+
+FIX THIS
+
 */
 
 , orders_detail_with_sk as (
@@ -60,9 +63,18 @@ joining PRODUCT on sales_order_detail
         , order_detail.unitprice			
         , order_detail.unitpricediscount
         , products.product_name
-    from {{ref('stg_sales_order_detail')}} order_detail
+    from {{ref('stg_sales_order_detail')}}  as order_detail
     left join products on order_detail.productid = products.productid
 )
+
+/*
+, test as (
+    select *
+    from products
+    left join order_detail_with_sk on products.productid = order_detail.productid
+)
+ */
+
 
 /*
 joining sales_reason on salesorderheadersalesreason
@@ -73,7 +85,7 @@ joining sales_reason on salesorderheadersalesreason
         row_number() over (partition by salesorderid order by sales_order_header_reason.salesreasonid) as dedup_index
         , salesorderid
         , salesreason_sk as salesreason_fk
-    from {{ref('stg_sls_order_header_sls_reason')}} sales_order_header_reason
+    from {{ref('stg_sls_order_header_sls_reason')}} as sales_order_header_reason
     left join reason on sales_order_header_reason.salesreasonid = reason.salesreasonid 
 )
 

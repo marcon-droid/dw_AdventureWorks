@@ -4,7 +4,7 @@ with source_data as (
         , salesorderdetailid			
         , orderqty				
         , productid				
-        , unitprice			
+        , cast (unitprice as numeric) as unitprice			
         , unitpricediscount			
     from{{ source('advworks_erp', 'salesorderdetail') }}
 
