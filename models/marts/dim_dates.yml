@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: dim_dates
+    columns:
+      - name: metric_date
+        description: The primary key of the date
+        tests:
+          - unique
+          - not_null

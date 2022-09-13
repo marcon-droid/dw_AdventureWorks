@@ -10,9 +10,11 @@ with source_data as (
         , creditcardid					
         , creditcardapprovalcode					
         , currencyrateid					
-        , orderdate				
-        , duedate					
-        , shipdate					
+        , cast(orderdate as date) as orderdate
+        , extract(month from orderdate) as order_date_month
+        , extract(year from orderdate) as order_date_year
+        , duedate				
+        , cast(shipdate as date) as shipdate 					
         , 'status' as order_status					
         , onlineorderflag					
         , purchaseordernumber					
