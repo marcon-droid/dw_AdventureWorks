@@ -10,5 +10,17 @@ with source_data as (
 
 )
 
+, transformed as (
+    select
+    salesorderid		
+        , salesorderdetailid			
+        , orderqty				
+        , productid				
+        , unitprice			
+        , unitpricediscount
+        , (unitprice - unitpricediscount)*orderqty as subtotal_calculated
+    from source_data
+)
+
 select *
-from source_data
+from transformed
