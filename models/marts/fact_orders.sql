@@ -62,6 +62,7 @@ FIX THIS
         , order_detail.productid				
         , order_detail.unitprice			
         , order_detail.unitpricediscount
+        , order_detail.subtotal_calculated
         , products.product_name
     from {{ref('stg_sales_order_detail')}}  as order_detail
     left join products on order_detail.productid = products.productid
@@ -119,7 +120,8 @@ joining sales_reason on salesorderheadersalesreason
         , orders_detail_with_sk.unitprice
         , orders_detail_with_sk.unitpricediscount
         , orders_detail_with_sk.product_name
-        , dedup_salesreason_with_sk.salesreason_fk 
+        , orders_detail_with_sk.subtotal_calculated
+        , dedup_salesreason_with_sk.salesreason_fk
     from slsorderheader_with_sk 
     left join orders_detail_with_sk on slsorderheader_with_sk.salesorderid = orders_detail_with_sk.salesorderid
     left join dedup_salesreason_with_sk on slsorderheader_with_sk.salesorderid = dedup_salesreason_with_sk.salesorderid 
