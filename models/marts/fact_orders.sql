@@ -50,9 +50,6 @@ joining CUSTOMERS, CREDIT CARD, ADDRESS on sales_order_header
 
 /*
 joining PRODUCT on sales_order_detail
-
-FIX THIS
-
 */
 
 , orders_detail_with_sk as (
@@ -69,15 +66,6 @@ FIX THIS
     from {{ref('stg_sales_order_detail')}}  as order_detail
     left join products on order_detail.productid = products.productid
 )
-
-/*
-, test as (
-    select *
-    from products
-    left join order_detail_with_sk on products.productid = order_detail.productid
-)
- */
-
 
 /*
 joining sales_reason on salesorderheadersalesreason
