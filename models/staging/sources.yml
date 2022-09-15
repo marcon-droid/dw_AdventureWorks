@@ -5,19 +5,28 @@ sources:
     schema: advworks_el 
     description: This is the adventure works erp postgres database replica
     tables:
-      - name: sales_order_header
-        description: One record per order.
+      - name: sales_salesorderheader
+        description: Table describing the orders (one record per order)
         columns:
           - name: salesorderid
-            description: Primary key of the orders table
+            description: Primary key of the orders table. 
       - name: person_address
+        description: City and street address of the people related to Adventure Works.
       - name: person_countryregion
-      - name: person_person
+        description: Coutry information of the people related to Adventure Works
       - name: person_stateprovince
+        description: State address of the people related to Adventure Works
+      - name: person_person
+        description: Detailed naming information of the people involved with Adventure Works
       - name: production_product
+        description: Information of products sold by Adventure Works including their characteristics
       - name: sales_creditcard
+        description: Table containing the creditcard information of purchases (at the order level)
       - name: sales_customer
-      - name: sales_salesorderheader
+        description: Table that contains data about the customers 
       - name: sales_salesreason
+        description: Table describing the reason of purchases (at the order level)
       - name: salesorderdetail
+        description: Detail of each order
       - name: salesorderheadersalesreason
+        description: Table to associate sales order header and order reason

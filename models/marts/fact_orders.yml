@@ -8,9 +8,21 @@ models:
         tests:
           - unique
           - not_null
-      - name: orderdate
-        description: Date of the order
+      - name: customerid_fk
+        description: Foreign key of the customers
         tests:
           - relationships:
-              to: ref('dim_dates')
-              field: metric_date
+              to: ref('dim_sales_customers')
+              field: customerid_sk
+      - name: productid_fk
+        description: Foreign key of products
+        tests:
+          - relationships:
+              to: ref('dim_products')
+              field: productid_sk
+      - name: salesreason_fk
+        description: Foreign key of sales reasons
+        tests:
+          - relationships:
+              to: ref('dim_sales_reason')
+              field: salesreason_sk
