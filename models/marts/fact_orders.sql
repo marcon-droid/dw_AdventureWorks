@@ -97,10 +97,6 @@ joining sales_reason on salesorderheadersalesreason
         , slsorderheader_with_sk.creditcard_fk
         , slsorderheader_with_sk.addressid_fk
         , slsorderheader_with_sk.orderdate				
-        , slsorderheader_with_sk.duedate
-        , slsorderheader_with_sk.order_date_year
-        , slsorderheader_with_sk.order_date_month					
-        , slsorderheader_with_sk.shipdate					
         , slsorderheader_with_sk.order_status					
         , slsorderheader_with_sk.subtotal					
         , slsorderheader_with_sk.totaldue
